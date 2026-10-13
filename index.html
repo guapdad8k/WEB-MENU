@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101821">
+  <meta name="description" content="Janko — selected spaces, projects and experiments.">
+  <title>JANKO / SELECT A SPACE</title>
+  <style>
+    :root{color-scheme:dark;--white:#f4f6f8;--muted:#a1adb9;--ink:#111a23;--accent:#9bd3ed;--ease:cubic-bezier(.22,1,.36,1)}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Helvetica Neue",Arial,sans-serif}
+    body{background:#0c151e;color:var(--white);overflow-x:hidden}
+    a{color:inherit;text-decoration:none}button{font:inherit}
+    .background{position:fixed;inset:0;z-index:-3;background:radial-gradient(ellipse at 67% 64%,#34556c 0%,transparent 44%),radial-gradient(ellipse at 12% 8%,#203243 0%,transparent 48%),linear-gradient(135deg,#0b121b 0%,#132536 53%,#0c151e 100%)}
+    .background:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,9,15,.08),rgba(5,9,15,.43));pointer-events:none}
+    .grain{position:fixed;inset:0;z-index:-1;opacity:.13;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E")}
+    .waves{position:fixed;inset:0;width:100%;height:100%;z-index:-2;opacity:.63;filter:blur(1px);pointer-events:none}
+    .waves path{fill:none;stroke-width:1.2;stroke:rgba(155,211,237,.24);animation:drift 18s ease-in-out infinite alternate}
+    .waves path:nth-child(2){stroke:rgba(176,205,252,.18);animation-delay:-6s;stroke-width:2}
+    .waves path:nth-child(3){stroke:rgba(123,197,236,.13);animation-delay:-11s;stroke-width:3}
+    @keyframes drift{from{transform:translateY(-15px) scale(1.02)}to{transform:translateY(28px) scale(1.07)}}
+    .shell{min-height:100svh;display:flex;flex-direction:column;padding:clamp(22px,3vw,54px) clamp(24px,5.5vw,110px)}
+    .topbar,.bottom{display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .brand{font-weight:800;letter-spacing:.18em;font-size:clamp(16px,1.5vw,21px)}
+    .brand span{color:var(--accent)}
+    .overline,.status,.bottom{font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:#bbc5cf}
+    .topright{display:flex;align-items:center;gap:24px}
+    .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#a4d4dd;margin-right:9px;box-shadow:0 0 10px #a4d4dd}
+    .clock{min-width:54px;font-variant-numeric:tabular-nums}
+    main{flex:1;display:flex;flex-direction:column;justify-content:center;width:min(1120px,100%);margin:0 auto;padding:55px 0 80px}
+    .eyebrow{font-size:11px;letter-spacing:.27em;font-weight:600;color:var(--accent);margin:0 0 14px}
+    h1{font-size:clamp(36px,5vw,72px);line-height:1;letter-spacing:-.065em;font-weight:500;margin:0}
+    .subtitle{font-size:clamp(13px,1.25vw,16px);font-weight:300;letter-spacing:.035em;color:#bac6d2;margin:18px 0 56px}
+    .categories{display:flex;align-items:center;gap:clamp(24px,3.8vw,64px);padding:0 0 26px;border-bottom:1px solid rgba(255,255,255,.17)}
+    .category{background:none;border:0;color:#9ba9b7;cursor:pointer;display:flex;align-items:center;gap:11px;font-size:12px;letter-spacing:.19em;text-transform:uppercase;padding:10px 0;position:relative;transition:color .25s}
+    .category svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.4;fill:none}
+    .category:after{content:"";position:absolute;bottom:-27px;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .35s var(--ease)}
+    .category:hover,.category.active{color:#fff}.category.active:after{transform:scaleX(1)}
+    .workspace{display:grid;grid-template-columns:minmax(270px,.92fr) minmax(300px,1fr);gap:clamp(28px,6vw,100px);align-items:center;padding-top:42px;min-height:355px}
+    .entries{display:flex;flex-direction:column;gap:5px}
+    .entry{display:flex;align-items:center;gap:22px;width:100%;text-align:left;padding:17px 18px;border:1px solid transparent;background:none;color:rgba(235,240,246,.64);cursor:pointer;transition:background .3s,border .3s,transform .4s var(--ease),color .3s}
+    .entry:hover,.entry.active{color:white;background:linear-gradient(90deg,rgba(171,213,236,.13),rgba(171,213,236,0));border-left-color:rgba(170,218,238,.7)}
+    .entry.active{transform:translateX(12px)}
+    .entry-icon{display:flex;align-items:center;justify-content:center;width:46px;height:46px;flex:none;border:1px solid rgba(255,255,255,.2);border-radius:13px;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.025))}
+    .entry-icon svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.4}
+    .entry.active .entry-icon{box-shadow:0 0 24px rgba(154,203,230,.15);border-color:rgba(180,223,246,.56)}
+    .entry-text strong{display:block;font-size:clamp(17px,1.7vw,22px);font-weight:400;letter-spacing:-.035em;margin-bottom:5px}
+    .entry-text small{display:block;color:#97a8b9;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+    .preview{position:relative;min-height:300px;display:flex;flex-direction:column;justify-content:center;isolation:isolate}
+    .preview:before{content:"";position:absolute;inset:22px -20px -10px 0;background:radial-gradient(ellipse at center,rgba(121,182,216,.12),transparent 66%);z-index:-1}
+    .preview-number{font-size:11px;letter-spacing:.27em;color:#99cce7;margin-bottom:26px}
+    .preview-title{font-size:clamp(34px,4vw,60px);font-weight:300;letter-spacing:-.05em;line-height:1.08;margin:0 0 20px}
+    .preview-description{max-width:420px;font-size:14px;line-height:1.85;color:#b4c1cf;min-height:58px;margin:0 0 24px}
+    .launch{display:inline-flex;gap:13px;align-items:center;align-self:flex-start;border:1px solid rgba(187,218,235,.58);padding:13px 19px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;background:rgba(182,220,243,.07);transition:background .2s,transform .2s}
+    .launch:hover{background:rgba(182,220,243,.19);transform:translateY(-2px)}
+    .launch svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7}
+    .preview-panel{animation:appear .45s var(--ease) both}
+    @keyframes appear{from{opacity:0;transform:translateY(14px);filter:blur(5px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+    .bottom{border-top:1px solid rgba(255,255,255,.13);padding-top:22px;line-height:1.6}
+    .bottom .instructions{display:flex;gap:22px;flex-wrap:wrap}.key{border:1px solid rgba(255,255,255,.33);padding:2px 6px;border-radius:3px;margin-right:7px;font-size:10px}
+    @media(max-width:700px){.shell{padding:22px}.topright{gap:12px}.status{display:none}main{padding:70px 0 60px}.subtitle{margin-bottom:38px}.categories{gap:25px;overflow-x:auto;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.category{white-space:nowrap}.workspace{grid-template-columns:1fr;gap:16px;padding-top:22px}.entries{gap:0}.entry{padding:13px 11px;gap:15px}.entry-icon{width:40px;height:40px}.entry-icon svg{width:21px}.preview{min-height:260px;padding-left:12px}.preview-number{margin-bottom:15px}.preview-description{min-height:0}.bottom .instructions{display:none}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="background" aria-hidden="true"></div>
+  <svg class="waves" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-100 650 C230 340 480 760 810 490 S1300 430 1570 240"/><path d="M-100 720 C240 395 495 800 820 550 S1300 475 1570 290"/><path d="M-100 780 C210 460 520 850 860 610 S1360 510 1570 370"/></svg>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Janko, home">JANKO<span> / </span>INDEX</a>
+      <div class="topright"><div class="status"><span class="dot"></span>SYSTEM ONLINE</div><div class="clock" id="clock">--:--</div></div>
+    </header>
+    <main>
+      <p class="eyebrow">PERSONAL ARCHIVE / 001</p>
+      <h1>Select a space<span style="color:var(--accent)">.</span></h1>
+      <p class="subtitle">One entry point. Different sides of the same world.</p>
+      <nav class="categories" aria-label="Project categories">
+        <button class="category active" data-category="all" aria-pressed="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> All spaces</button>
+        <button class="category" data-category="visual" aria-pressed="false"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m3 16 5-4 4 3 4-5 5 6"/></svg> Visual</button>
+        <button class="category" data-category="audio" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 10v4m4-8v12m4-15v18m4-15v12m4-8v4m4-6v8"/></svg> Audio</button>
+      </nav>
+      <div class="workspace">
+        <div class="entries" id="entries" aria-label="Projects"></div>
+        <section class="preview" id="preview" aria-live="polite"></section>
+      </div>
+    </main>
+    <footer class="bottom"><span>© <span id="year">2026</span> JANKO — ALL SYSTEMS CONNECTED</span><span class="instructions"><span><span class="key">↑ ↓</span>SELECT</span><span><span class="key">↵</span>OPEN</span></span><span>VERSION 01 / INDEX</span></footer>
+  </div>
+  <script>
+    // Add future portfolio entries here. Categories: "visual" or "audio".
+    const projects = [
+      {name:"WEB PORTFOLIO",type:"visual",tag:"DESIGN / 3D / AUTOMOTIVE",description:"Digital portfolio of design work, automotive concepts, 3D objects and visual experiments.",url:"https://guapdad8k.github.io/WEB-PORTFOLIO/#home",icon:"cube"},
+      {name:"MIXMASTER",type:"audio",tag:"MIXING / AUDIO",description:"A dedicated space for mixes, listening and audio experimentation.",url:"https://pl77239.github.io/MIXMASTER/",icon:"sliders"},
+      {name:"BEATS PORTFOLIO",type:"audio",tag:"PRODUCTION / SOUND",description:"A collection of beats, sound explorations and music production projects.",url:"https://pl77239.github.io/BEATS_PORTFOLIO/",icon:"wave"}
+    ];
+    const icons={
+      cube:'<path d="m12 2 9 5-9 5-9-5 9-5Zm-9 5v10l9 5 9-5V7M12 12v10"/>',
+      sliders:'<path d="M4 4v16M12 4v16M20 4v16M1 9h6M9 15h6M17 10h6"/>',
+      wave:'<path d="M2 12h2l2-6 4 12 4-16 4 14 2-4h2"/>'
+    };
+    const $entries=document.getElementById("entries"), $preview=document.getElementById("preview");
+    let category="all",selected=0;
+    const visible=()=>projects.filter(p=>category==="all"||p.type===category);
+    function render(){
+      const arr=visible();selected=Math.min(Math.max(0,selected),arr.length-1);
+      $entries.innerHTML=arr.map((p,i)=>'<button type="button" class="entry '+(selected===i?'active':'')+'" data-index="'+i+'" aria-pressed="'+(selected===i)+'"><span class="entry-icon"><svg viewBox="0 0 24 24" aria-hidden="true">'+icons[p.icon]+'</svg></span><span class="entry-text"><strong>'+p.name+'</strong><small>'+p.tag+'</small></span></button>').join('');
+      const p=arr[selected];if(!p){$preview.innerHTML='<p>No projects in this category yet.</p>';return}
+      $preview.innerHTML='<div class="preview-panel" key="'+selected+'"><div class="preview-number">SELECTED SPACE / '+String(projects.indexOf(p)+1).padStart(2,"0")+'</div><h2 class="preview-title">'+p.name+'</h2><p class="preview-description">'+p.description+'</p><a class="launch" href="'+p.url+'" target="_blank" rel="noopener noreferrer" aria-label="Open '+p.name+' in a new tab">Enter project <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>';
+      $entries.querySelectorAll(".entry").forEach(b=>{b.addEventListener("click",()=>{selected=Number(b.dataset.index);render()});b.addEventListener("dblclick",()=>window.open(arr[Number(b.dataset.index)].url,"_blank","noopener,noreferrer"))});
+    }
+    document.querySelectorAll(".category").forEach(btn=>btn.addEventListener("click",()=>{
+      category=btn.dataset.category;selected=0;
+      document.querySelectorAll(".category").forEach(b=>{b.classList.toggle("active",b===btn);b.setAttribute("aria-pressed",String(b===btn))});render();
+    }));
+    document.addEventListener("keydown",e=>{
+      if(e.altKey||e.ctrlKey||e.metaKey||["INPUT","TEXTAREA"].includes(document.activeElement.tagName))return;
+      if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();selected=(selected+(e.key==="ArrowDown"?1:-1)+visible().length)%visible().length;render()}
+      if(e.key==="Enter"&&!(document.activeElement instanceof HTMLAnchorElement)&&!(document.activeElement instanceof HTMLButtonElement)){window.open(visible()[selected].url,"_blank","noopener,noreferrer")}
+      if(e.key==="ArrowRight"||e.key==="ArrowLeft"){e.preventDefault();const buttons=[...document.querySelectorAll(".category")];const idx=buttons.findIndex(b=>b.dataset.category===category);buttons[(idx+(e.key==="ArrowRight"?1:-1)+buttons.length)%buttons.length].click()}
+    });
+    function updateClock(){document.getElementById("clock").textContent=new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",timeZone:"Europe/Warsaw"}).format(new Date())}
+    updateClock();setInterval(updateClock,15000);document.getElementById("year").textContent=new Date().getFullYear();render();
+  </script>
+</body>
+</html>
